@@ -1,0 +1,79 @@
+{
+  "updatedAt": "2026-06-12T13:58:27.286Z",
+  "missions": [
+    {
+      "id": "session:ef8e2cc8-9383-4cfc-82e1-57a6d46e512c:none",
+      "source": "session",
+      "name": "none",
+      "objective": "Session mission",
+      "createdAt": "2026-06-12T13:48:46.315Z",
+      "updatedAt": "2026-06-12T13:58:27.286Z",
+      "status": "done",
+      "workerCount": 2,
+      "taskCounts": {
+        "total": 2,
+        "pending": 0,
+        "blocked": 0,
+        "inProgress": 0,
+        "completed": 2,
+        "failed": 0
+      },
+      "agents": [
+        {
+          "name": "designer:ad90a77",
+          "role": "designer",
+          "ownership": "ad90a776cbb77fda4",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-06-12T13:58:27.286Z"
+        },
+        {
+          "name": "document-specialist:a3e7a0c",
+          "role": "document-specialist",
+          "ownership": "a3e7a0c78037d827f",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-06-12T13:55:07.152Z"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "session-start:ad90a776cbb77fda4:2026-06-12T13:48:46.315Z",
+          "at": "2026-06-12T13:48:46.315Z",
+          "kind": "update",
+          "agent": "designer:ad90a77",
+          "detail": "started designer:ad90a77",
+          "sourceKey": "session-start:ad90a776cbb77fda4"
+        },
+        {
+          "id": "session-start:a3e7a0c78037d827f:2026-06-12T13:52:43.881Z",
+          "at": "2026-06-12T13:52:43.881Z",
+          "kind": "update",
+          "agent": "document-specialist:a3e7a0c",
+          "detail": "started document-specialist:a3e7a0c",
+          "sourceKey": "session-start:a3e7a0c78037d827f"
+        },
+        {
+          "id": "session-stop:a3e7a0c78037d827f:2026-06-12T13:55:07.152Z",
+          "at": "2026-06-12T13:55:07.152Z",
+          "kind": "completion",
+          "agent": "document-specialist:a3e7a0c",
+          "detail": "completed",
+          "sourceKey": "session-stop:a3e7a0c78037d827f"
+        },
+        {
+          "id": "session-stop:ad90a776cbb77fda4:2026-06-12T13:58:27.286Z",
+          "at": "2026-06-12T13:58:27.286Z",
+          "kind": "completion",
+          "agent": "designer:ad90a77",
+          "detail": "completed",
+          "sourceKey": "session-stop:ad90a776cbb77fda4"
+        }
+      ]
+    }
+  ]
+}

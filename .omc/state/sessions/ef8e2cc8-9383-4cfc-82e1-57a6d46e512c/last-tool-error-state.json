@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd \\\"/Users/yusyuanliu/Documents/program file/work/raggauge/frontend\\\" && pnpm build 2>&1 && echo \\\"---LINT---\\\" && pnpm lint 2>&1\",\"timeout\":180000,\"description\":\"Run build then lint\"}",
+  "error": "Exit code 1\n\n> frontend@0.1.0 build /Users/yusyuanliu/Documents/program file/work/raggauge/frontend\n> next build\n\n▲ Next.js 16.2.9 (Turbopack)\n\n  Creating an optimized production build ...\n✓ Compiled successfully in 1518ms\n  Running TypeScript ...\n  Finished TypeScript in 1340ms ...\n  Collecting page data using 6 workers ...\n  Generating static pages using 6 workers (0/4) ...\n  Generating static pages using 6 workers (1/4) \r\n  Generating static pages using 6 workers (2/4) \r\n  Generating static p...",
+  "timestamp": "2026-06-12T13:57:12.366Z",
+  "retry_count": 1
+}
