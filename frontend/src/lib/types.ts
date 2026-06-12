@@ -86,10 +86,10 @@ export const STRATEGY_LABELS: Record<Strategy, string> = {
 };
 
 export const METRIC_COLORS = {
-  retrieval_recall: "#3B82F6",
-  context_precision: "#8B5CF6",
-  faithfulness: "#10B981",
-  answer_correctness: "#F59E0B",
+  retrieval_recall: "oklch(0.75 0.12 210)",
+  context_precision: "oklch(0.7 0.13 255)",
+  faithfulness: "oklch(0.75 0.15 150)",
+  answer_correctness: "oklch(0.78 0.14 80)",
 } as const;
 
 export const METRIC_LABELS = {

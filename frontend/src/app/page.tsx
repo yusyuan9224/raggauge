@@ -8,7 +8,6 @@ import { HealthBadge } from "@/components/HealthBadge";
 import { StatusBadge } from "@/components/StatusBadge";
 import { NewExperimentDialog } from "@/components/NewExperimentDialog";
 import { formatDistanceToNow } from "@/lib/time";
-import { ChevronRight, FlaskConical, Database } from "lucide-react";
 
 function usePolledData() {
   const [experiments, setExperiments] = useState<Experiment[]>([]);
@@ -49,46 +48,33 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Top nav */}
-      <header className="border-b border-border bg-card">
-        <div className="mx-auto max-w-5xl px-6 py-4 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <FlaskConical className="h-4 w-4" />
-            </div>
-            <div>
-              <h1 className="text-base font-semibold leading-none">RAGGauge</h1>
-              <p className="text-xs text-muted-foreground mt-0.5">RAG 評測儀表板</p>
-            </div>
+      {/* Toolbar header */}
+      <header className="border-b border-border bg-background">
+        <div className="mx-auto max-w-6xl px-6 h-12 flex items-center justify-between gap-4">
+          <div className="flex items-baseline gap-3">
+            <span className="font-mono text-sm font-semibold tracking-tight text-foreground">
+              RAGGauge
+            </span>
+            <span className="text-xs text-muted-foreground">RAG 評測儀表板</span>
           </div>
           <HealthBadge />
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-6 py-8 space-y-8">
-        {/* Summary cards */}
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <SummaryCard
-            icon={<FlaskConical className="h-4 w-4" />}
-            label="總實驗數"
-            value={experiments.length}
-          />
-          <SummaryCard
-            icon={<Database className="h-4 w-4" />}
-            label="資料集"
-            value={datasets.length}
-          />
-          <SummaryCard
-            icon={null}
+      <main className="mx-auto max-w-6xl px-6 py-6 space-y-6">
+        {/* Readout strip */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 rounded-md border border-border bg-card divide-x divide-border">
+          <Readout label="總實驗數" value={experiments.length} />
+          <Readout label="資料集" value={datasets.length} />
+          <Readout
             label="執行中"
             value={experiments.filter((e) => e.status === "running").length}
-            valueColor="text-sky-600"
+            valueClass="text-status-warn"
           />
-          <SummaryCard
-            icon={null}
+          <Readout
             label="已完成"
             value={experiments.filter((e) => e.status === "done").length}
-            valueColor="text-emerald-600"
+            valueClass="text-status-ok"
           />
         </div>
 
@@ -100,32 +86,38 @@ export default function HomePage() {
           </div>
 
           {loading ? (
-            <div className="space-y-2">
+            <div className="rounded-md border border-border bg-card divide-y divide-border">
               {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="h-16 rounded-lg border border-border bg-card animate-pulse"
-                />
+                <div key={i} className="h-11 animate-pulse" />
               ))}
             </div>
           ) : experiments.length === 0 ? (
-            <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-border bg-card py-16 text-center">
-              <FlaskConical className="h-8 w-8 text-muted-foreground/40" />
+            <div className="flex flex-col items-center justify-center gap-1.5 rounded-md border border-dashed border-border bg-card py-16 text-center">
               <p className="text-sm text-muted-foreground">尚無實驗</p>
               <p className="text-xs text-muted-foreground/60">點擊「新建實驗」開始評測</p>
             </div>
           ) : (
-            <div className="space-y-2">
-              {experiments
-                .slice()
-                .sort(
-                  (a, b) =>
-                    new Date(b.created_at).getTime() -
-                    new Date(a.created_at).getTime()
-                )
-                .map((exp) => (
-                  <ExperimentRow key={exp.id} experiment={exp} />
-                ))}
+            <div className="rounded-md border border-border bg-card overflow-hidden">
+              {/* Table header */}
+              <div className="grid grid-cols-[88px_minmax(0,1fr)_80px_120px_minmax(0,200px)] items-center gap-x-4 border-b border-border px-4 h-8 text-[11px] font-medium text-muted-foreground">
+                <span>狀態</span>
+                <span>名稱</span>
+                <span className="text-right">設定數</span>
+                <span className="text-right">建立時間</span>
+                <span className="text-right">錯誤</span>
+              </div>
+              <div className="divide-y divide-border">
+                {experiments
+                  .slice()
+                  .sort(
+                    (a, b) =>
+                      new Date(b.created_at).getTime() -
+                      new Date(a.created_at).getTime()
+                  )
+                  .map((exp) => (
+                    <ExperimentRow key={exp.id} experiment={exp} />
+                  ))}
+              </div>
             </div>
           )}
         </section>
@@ -138,43 +130,40 @@ function ExperimentRow({ experiment: exp }: { experiment: Experiment }) {
   return (
     <Link
       href={`/experiments/${exp.id}`}
-      className="flex items-center justify-between rounded-lg border border-border bg-card px-5 py-4 transition-all hover:border-foreground/20 hover:shadow-sm group"
+      className="grid grid-cols-[88px_minmax(0,1fr)_80px_120px_minmax(0,200px)] items-center gap-x-4 px-4 h-11 transition-colors hover:bg-white/[0.03]"
     >
-      <div className="flex items-center gap-4 min-w-0">
+      <span>
         <StatusBadge status={exp.status} />
-        <div className="min-w-0">
-          <p className="text-sm font-medium text-foreground truncate">{exp.name}</p>
-          <p className="text-xs text-muted-foreground mt-0.5">
-            {exp.num_configs} 組設定 · {formatDistanceToNow(exp.created_at)}前
-          </p>
-        </div>
-      </div>
-      {exp.error && (
-        <p className="text-xs text-red-600 max-w-[200px] truncate mr-4">{exp.error}</p>
-      )}
-      <ChevronRight className="h-4 w-4 text-muted-foreground/40 flex-shrink-0 transition-transform group-hover:translate-x-0.5" />
+      </span>
+      <span className="text-sm text-foreground truncate">{exp.name}</span>
+      <span className="font-mono text-xs tabular-nums text-muted-foreground text-right">
+        {exp.num_configs}
+      </span>
+      <span className="font-mono text-xs tabular-nums text-muted-foreground text-right whitespace-nowrap">
+        {formatDistanceToNow(exp.created_at)}前
+      </span>
+      <span className="font-mono text-xs text-status-err truncate text-right">
+        {exp.error ?? ""}
+      </span>
     </Link>
   );
 }
 
-function SummaryCard({
-  icon,
+function Readout({
   label,
   value,
-  valueColor = "text-foreground",
+  valueClass = "text-foreground",
 }: {
-  icon: React.ReactNode;
   label: string;
   value: number;
-  valueColor?: string;
+  valueClass?: string;
 }) {
   return (
-    <div className="rounded-lg border border-border bg-card px-4 py-4">
-      <div className="flex items-center gap-2 text-muted-foreground mb-2">
-        {icon}
-        <span className="text-xs font-medium">{label}</span>
-      </div>
-      <p className={`text-2xl font-bold ${valueColor}`}>{value}</p>
+    <div className="px-4 py-3">
+      <p className={`font-mono text-2xl font-medium leading-none tabular-nums ${valueClass}`}>
+        {value}
+      </p>
+      <p className="mt-1.5 text-[11px] text-muted-foreground">{label}</p>
     </div>
   );
 }

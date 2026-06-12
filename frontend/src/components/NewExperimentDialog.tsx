@@ -207,7 +207,7 @@ export function NewExperimentDialog({ datasets, onCreated }: Props) {
                 <div
                   className={`flex h-5 w-5 items-center justify-center rounded-full text-xs font-medium transition-colors ${
                     i < stepIndex
-                      ? "bg-emerald-500 text-white"
+                      ? "bg-primary/20 text-primary"
                       : i === stepIndex
                       ? "bg-primary text-primary-foreground"
                       : "bg-muted text-muted-foreground"
@@ -387,7 +387,7 @@ export function NewExperimentDialog({ datasets, onCreated }: Props) {
               <div
                 className={`rounded-md border px-4 py-3 text-sm font-medium ${
                   totalConfigs > 24
-                    ? "border-red-200 bg-red-50 text-red-700"
+                    ? "border-destructive/40 bg-destructive/10 text-status-err"
                     : "border-border bg-muted/50 text-foreground"
                 }`}
               >
@@ -399,7 +399,7 @@ export function NewExperimentDialog({ datasets, onCreated }: Props) {
                 ) : (
                   <span>
                     將產生{" "}
-                    <span className="font-bold text-primary">{totalConfigs}</span>{" "}
+                    <span className="font-mono font-semibold tabular-nums text-primary">{totalConfigs}</span>{" "}
                     組設定
                   </span>
                 )}
@@ -443,7 +443,7 @@ export function NewExperimentDialog({ datasets, onCreated }: Props) {
                 </p>
                 <p className="text-sm">
                   <span className="text-muted-foreground">共 </span>
-                  <span className="font-bold">{totalConfigs}</span>
+                  <span className="font-mono font-semibold tabular-nums">{totalConfigs}</span>
                   <span className="text-muted-foreground"> 組設定</span>
                 </p>
               </div>
@@ -452,7 +452,7 @@ export function NewExperimentDialog({ datasets, onCreated }: Props) {
 
           {/* Error */}
           {error && (
-            <div className="flex items-start gap-2 rounded-md border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-700">
+            <div className="flex items-start gap-2 rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2.5 text-sm text-status-err">
               <AlertCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />
               {error}
             </div>

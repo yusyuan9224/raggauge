@@ -1,6 +1,6 @@
 [project]
 name = "raggauge"
-version = "0.1.0"
+version = "1.1.0"
 description = "自架 RAG 評測 dashboard — self-hosted RAG evaluation with transparent metrics"
 license = { text = "MIT" }
 readme = "README.md"

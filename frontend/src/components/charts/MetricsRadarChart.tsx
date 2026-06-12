@@ -17,7 +17,18 @@ interface Props {
   results: ConfigResult[];
 }
 
-const COLORS = ["#3B82F6", "#F59E0B", "#10B981", "#8B5CF6", "#EC4899", "#EF4444"];
+const GRID = "oklch(0.28 0.012 250)";
+const TICK = "oklch(0.65 0.01 250)";
+
+// Series palette — no purple
+const COLORS = [
+  "oklch(0.75 0.12 210)", // cyan
+  "oklch(0.78 0.14 80)", // amber
+  "oklch(0.75 0.15 150)", // green
+  "oklch(0.7 0.13 255)", // blue
+  "oklch(0.7 0.14 25)", // red
+  "oklch(0.8 0.12 110)", // lime
+];
 
 const AXES = [
   { key: "retrieval_recall", label: "召回率" },
@@ -62,12 +73,19 @@ export function MetricsRadarChart({ results }: Props) {
             <button
               key={lbl}
               onClick={() => toggle(lbl)}
-              className={`rounded-md border px-2 py-1 text-xs font-mono transition-colors ${
+              className={`rounded-sm border px-2 py-1 text-xs font-mono transition-colors ${
                 isSelected
-                  ? "border-transparent text-white"
+                  ? "text-background font-medium"
                   : "border-border text-muted-foreground hover:border-foreground/30"
               }`}
-              style={isSelected ? { background: COLORS[i % COLORS.length] } : {}}
+              style={
+                isSelected
+                  ? {
+                      background: COLORS[i % COLORS.length],
+                      borderColor: COLORS[i % COLORS.length],
+                    }
+                  : {}
+              }
             >
               {lbl}
             </button>
@@ -78,24 +96,28 @@ export function MetricsRadarChart({ results }: Props) {
 
       <ResponsiveContainer width="100%" height={280}>
         <RadarChart data={radarData} margin={{ top: 8, right: 32, bottom: 8, left: 32 }}>
-          <PolarGrid stroke="#E2E8F0" />
+          <PolarGrid stroke={GRID} />
           <PolarAngleAxis
             dataKey="metric"
-            tick={{ fontSize: 12, fill: "#64748B" }}
+            tick={{ fontSize: 12, fill: TICK }}
           />
           <PolarRadiusAxis
             angle={30}
             domain={[0, 1]}
-            tick={{ fontSize: 10, fill: "#94A3B8" }}
+            tick={{ fontSize: 10, fontFamily: "JetBrains Mono, monospace", fill: TICK }}
+            stroke={GRID}
             tickCount={4}
           />
           <Tooltip
             contentStyle={{
-              background: "#fff",
-              border: "1px solid #E2E8F0",
+              background: "oklch(0.205 0.012 250)",
+              border: `1px solid ${GRID}`,
               borderRadius: 6,
               fontSize: 12,
+              color: "oklch(0.92 0.005 250)",
             }}
+            itemStyle={{ color: "oklch(0.92 0.005 250)" }}
+            labelStyle={{ color: TICK }}
             formatter={(value) => [typeof value === "number" ? value.toFixed(3) : String(value)]}
           />
           {activeResults.map((r) => {
@@ -114,7 +136,7 @@ export function MetricsRadarChart({ results }: Props) {
             );
           })}
           <Legend
-            wrapperStyle={{ fontSize: 11, fontFamily: "JetBrains Mono, monospace" }}
+            wrapperStyle={{ fontSize: 11, fontFamily: "JetBrains Mono, monospace", color: TICK }}
           />
         </RadarChart>
       </ResponsiveContainer>

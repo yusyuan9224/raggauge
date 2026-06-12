@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import { HealthResponse } from "@/lib/types";
-import { AlertTriangle, Wifi, WifiOff } from "lucide-react";
 
 export function HealthBadge() {
   const [health, setHealth] = useState<HealthResponse | null>(null);
@@ -18,19 +17,19 @@ export function HealthBadge() {
 
   if (error) {
     return (
-      <div className="flex items-center gap-2 rounded-md border border-red-200 bg-red-50 px-3 py-1.5 text-sm text-red-700">
-        <WifiOff className="h-3.5 w-3.5" />
-        <span>後端離線</span>
-      </div>
+      <span className="status-pill status-pill-err">
+        <span className="h-1.5 w-1.5 rounded-full bg-status-err" />
+        後端離線
+      </span>
     );
   }
 
   if (!health) {
     return (
-      <div className="flex items-center gap-2 rounded-md border border-border bg-muted px-3 py-1.5 text-sm text-muted-foreground animate-pulse">
-        <div className="h-2 w-2 rounded-full bg-muted-foreground/40" />
-        <span>連線中…</span>
-      </div>
+      <span className="status-pill status-pill-neutral animate-pulse">
+        <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/40" />
+        連線中…
+      </span>
     );
   }
 
@@ -38,32 +37,20 @@ export function HealthBadge() {
 
   return (
     <div className="flex items-center gap-3">
-      <div
-        className={`flex items-center gap-2 rounded-md border px-3 py-1.5 text-sm font-medium ${
-          online
-            ? "border-emerald-200 bg-emerald-50 text-emerald-700"
-            : "border-amber-200 bg-amber-50 text-amber-700"
-        }`}
-      >
-        {online ? (
-          <Wifi className="h-3.5 w-3.5" />
-        ) : (
-          <WifiOff className="h-3.5 w-3.5" />
-        )}
-        <span className="w-2 h-2 rounded-full inline-block" style={{ background: online ? "#10B981" : "#F59E0B" }} />
-        <span>{online ? "已連線" : "Ollama 離線"}</span>
-        {health.judge_model && (
-          <span className="font-mono text-xs opacity-75 ml-1">
-            {health.judge_model}
-          </span>
-        )}
-      </div>
       {health.judge_model && (
-        <div className="flex items-center gap-1.5 text-xs text-amber-600">
-          <AlertTriangle className="h-3 w-3 flex-shrink-0" />
-          <span>7B 級 judge 僅供相對比較</span>
-        </div>
+        <span className="hidden sm:inline text-[11px] text-muted-foreground">
+          7B 級 judge 僅供相對比較
+        </span>
       )}
+      <span className={`status-pill ${online ? "status-pill-ok" : "status-pill-warn"}`}>
+        <span
+          className={`h-1.5 w-1.5 rounded-full ${online ? "bg-status-ok" : "bg-status-warn"}`}
+        />
+        {online ? "已連線" : "Ollama 離線"}
+        {health.judge_model && (
+          <span className="font-mono opacity-75">{health.judge_model}</span>
+        )}
+      </span>
     </div>
   );
 }

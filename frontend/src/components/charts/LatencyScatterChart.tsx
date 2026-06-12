@@ -16,6 +16,9 @@ interface Props {
   results: ConfigResult[];
 }
 
+const GRID = "oklch(0.28 0.012 250)";
+const TICK = "oklch(0.65 0.01 250)";
+
 export function LatencyScatterChart({ results }: Props) {
   const data = results.map((r) => ({
     name: configLabel(r.config),
@@ -26,41 +29,46 @@ export function LatencyScatterChart({ results }: Props) {
   return (
     <ResponsiveContainer width="100%" height={280}>
       <ScatterChart margin={{ top: 16, right: 24, left: -8, bottom: 8 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
+        <CartesianGrid strokeDasharray="3 3" stroke={GRID} />
         <XAxis
           dataKey="totalMs"
           name="總延遲 (ms)"
           type="number"
-          tick={{ fontSize: 11, fill: "#64748B" }}
+          tick={{ fontSize: 11, fontFamily: "JetBrains Mono, monospace", fill: TICK }}
+          stroke={GRID}
           label={{
             value: "總延遲 (ms)",
             position: "insideBottomRight",
             offset: -4,
             fontSize: 11,
-            fill: "#94A3B8",
+            fill: TICK,
           }}
         />
         <YAxis
           dataKey="correctness"
           name="答案正確性"
           domain={[0, 1]}
-          tick={{ fontSize: 11, fill: "#64748B" }}
+          tick={{ fontSize: 11, fontFamily: "JetBrains Mono, monospace", fill: TICK }}
+          stroke={GRID}
           label={{
             value: "答案正確性",
             angle: -90,
             position: "insideLeft",
             fontSize: 11,
-            fill: "#94A3B8",
+            fill: TICK,
           }}
         />
         <Tooltip
-          cursor={{ strokeDasharray: "3 3" }}
+          cursor={{ strokeDasharray: "3 3", stroke: GRID }}
           contentStyle={{
-            background: "#fff",
-            border: "1px solid #E2E8F0",
+            background: "oklch(0.205 0.012 250)",
+            border: `1px solid ${GRID}`,
             borderRadius: 6,
             fontSize: 12,
+            color: "oklch(0.92 0.005 250)",
           }}
+          itemStyle={{ color: "oklch(0.92 0.005 250)" }}
+          labelStyle={{ color: TICK }}
           formatter={(value, name) => [
             typeof value === "number"
               ? name === "correctness"
@@ -74,7 +82,7 @@ export function LatencyScatterChart({ results }: Props) {
           <LabelList
             dataKey="name"
             position="top"
-            style={{ fontSize: 9, fontFamily: "JetBrains Mono, monospace", fill: "#64748B" }}
+            style={{ fontSize: 9, fontFamily: "JetBrains Mono, monospace", fill: TICK }}
           />
         </Scatter>
       </ScatterChart>
